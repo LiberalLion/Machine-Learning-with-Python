@@ -21,7 +21,9 @@ def pca_results(good_data, pca):
     Visualizes the PCA results
     '''
     # Dimension indexing
-    dimensions = dimensions = ['Dimension {}'.format(i) for i in range(1,len(pca.components_)+1)]
+    dimensions = dimensions = [
+        f'Dimension {i}' for i in range(1, len(pca.components_) + 1)
+    ]
     # PCA components
     components = pd.DataFrame(np.round(pca.components_, 4), columns = good_data.keys())
     components.index = dimensions

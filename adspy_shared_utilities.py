@@ -67,9 +67,10 @@ def plot_labelled_scatter(X, y, class_labels):
     plt.xlim(x_min, x_max)
     plt.ylim(y_min, y_max)
 
-    h = []
-    for c in range(0, num_labels):
-        h.append(mpatches.Patch(color=color_array[c], label=class_labels[c]))
+    h = [
+        mpatches.Patch(color=color_array[c], label=class_labels[c])
+        for c in range(0, num_labels)
+    ]
     plt.legend(handles=h)
 
     plt.show()
@@ -80,8 +81,8 @@ def plot_class_regions_for_classifier_subplot(clf, X, y, X_test, y_test, title, 
     numClasses = numpy.amax(y) + 1
     color_list_light = ['#FFFFAA', '#EFEFEF', '#AAFFAA', '#AAAAFF']
     color_list_bold = ['#EEEE00', '#000000', '#00CC00', '#0000CC']
-    cmap_light = ListedColormap(color_list_light[0:numClasses])
-    cmap_bold  = ListedColormap(color_list_bold[0:numClasses])
+    cmap_light = ListedColormap(color_list_light[:numClasses])
+    cmap_bold = ListedColormap(color_list_bold[:numClasses])
 
     h = 0.03
     k = 0.5
@@ -126,8 +127,8 @@ def plot_class_regions_for_classifier(clf, X, y, X_test=None, y_test=None, title
     numClasses = numpy.amax(y) + 1
     color_list_light = ['#FFFFAA', '#EFEFEF', '#AAFFAA', '#AAAAFF']
     color_list_bold = ['#EEEE00', '#000000', '#00CC00', '#0000CC']
-    cmap_light = ListedColormap(color_list_light[0:numClasses])
-    cmap_bold  = ListedColormap(color_list_bold[0:numClasses])
+    cmap_light = ListedColormap(color_list_light[:numClasses])
+    cmap_bold = ListedColormap(color_list_bold[:numClasses])
 
     h = 0.03
     k = 0.5
@@ -226,10 +227,10 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
 
     # Plot the decision boundary by assigning a color in the color map
     # to each mesh point.
-    
+
     mesh_step_size = .01  # step size in the mesh
     plot_symbol_size = 50
-    
+
     x_min, x_max = X_mat[:, 0].min() - 1, X_mat[:, 0].max() + 1
     y_min, y_max = X_mat[:, 1].min() - 1, X_mat[:, 1].max() + 1
     xx, yy = numpy.meshgrid(numpy.arange(x_min, x_max, mesh_step_size),
@@ -246,11 +247,13 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
     plt.xlim(xx.min(), xx.max())
     plt.ylim(yy.min(), yy.max())
 
-    title = "Neighbors = {}".format(n_neighbors)
+    title = f"Neighbors = {n_neighbors}"
     if (X_test is not None):
         train_score = clf.score(X_mat, y_mat)
         test_score  = clf.score(X_test, y_test)
-        title = title + "\nTrain score = {:.2f}, Test score = {:.2f}".format(train_score, test_score)
+        title += "\nTrain score = {:.2f}, Test score = {:.2f}".format(
+            train_score, test_score
+        )
 
     patch0 = mpatches.Patch(color='#FFFF00', label='class 0')
     patch1 = mpatches.Patch(color='#000000', label='class 1')
